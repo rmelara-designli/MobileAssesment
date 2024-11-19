@@ -1,17 +1,18 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {Product} from '../../types/Product';
 import {styles} from './styles';
 import {formatCurrency} from '../../utils/formatCurrency';
 
 type ProductCellProps = {
   product: Product;
+  onPress: () => void;
 };
 
-export const ProductCell = ({product}: ProductCellProps) => {
+export const ProductCell = ({product, onPress}: ProductCellProps) => {
   return (
     <>
-      <View style={styles.content}>
+      <TouchableOpacity onPress={onPress} style={styles.content}>
         <Text style={styles.title}>{product.title}</Text>
 
         <Text>
@@ -24,7 +25,7 @@ export const ProductCell = ({product}: ProductCellProps) => {
         </Text>
         {/* Availability does not exist in platzi API
         <Text>{product.availability}</Text> */}
-      </View>
+      </TouchableOpacity>
     </>
   );
 };

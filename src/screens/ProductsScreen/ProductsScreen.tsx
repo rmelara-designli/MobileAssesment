@@ -6,8 +6,10 @@ import {Product} from '../../types/Product';
 import {Loader} from '../../components/Loader/Loader';
 import {EmptyView} from '../../components/EmptyView/EmptyView';
 import {styles} from './styles';
+import {useNavigation} from '@react-navigation/native';
 
-export const ProductScreen = () => {
+export const ProductsScreen = () => {
+  const {navigate} = useNavigation();
   const {products, loading, error, loadMoreProducts, hasMore, isFirstLoad} =
     useProduct();
 
@@ -19,11 +21,17 @@ export const ProductScreen = () => {
     return <EmptyView message=" No products found" />;
   }
 
+  const productHandle = (item: Product) => {
+    navigate('ProductDetailScreen', {product: item});
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
         data={products}
-        renderItem={({item}) => <ProductCell product={item} />}
+        renderItem={({item}) => (
+          <ProductCell onPress={() => productHandle(item)} product={item} />
+        )}
         keyExtractor={item => item.id.toString()}
         onEndReached={loadMoreProducts}
         onEndReachedThreshold={0.5}
